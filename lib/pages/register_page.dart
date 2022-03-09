@@ -1,11 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:registration/config.dart';
 import 'package:registration/models/register_request_model.dart';
+import 'package:registration/pages/login_page.dart';
 import 'package:registration/services/api_service.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
+import 'package:proximity_sensor/proximity_sensor.dart';
+import 'package:flutter/foundation.dart' as foundation;
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -21,7 +26,42 @@ class _RegisterPageState extends State<RegisterPage> {
   String? username;
   String? password;
   String? email;
-  
+  bool _isNear = false;
+
+  late StreamSubscription<dynamic> _streamSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    listenSensor();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _streamSubscription.cancel();
+  }
+
+  // Proximity Sensor------------------
+  Future<void> listenSensor() async {
+    FlutterError.onError = (FlutterErrorDetails details) {
+      if (foundation.kDebugMode) {
+        FlutterError.dumpErrorToConsole(details);
+      }
+    };
+
+    _streamSubscription = ProximitySensor.events.listen((int event) {
+      setState(() {
+        _isNear = (event > 0) ? true : false;
+        if (_isNear) {
+          Navigator.pushReplacement<void, void>(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => const LoginPage()));
+        }
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

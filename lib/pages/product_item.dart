@@ -21,8 +21,8 @@ class ProductItem extends StatelessWidget {
       child: Container(
         width: 200,
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(50),
+          color: Color.fromARGB(255, 216, 210, 210),
+          borderRadius: BorderRadius.circular(2),
         ),
         child: cartItem(context),
       ),
@@ -66,14 +66,23 @@ class ProductItem extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 100,
+                height: 60,
+                
+                
+              ),
+              
+              Text(
+                "${model!.productDescription}",
+                style: const TextStyle(color: Colors.black,fontSize: 16, fontWeight:FontWeight.bold ),
               ),
               Text(
-                "₹${model!.productPrice}",
-                style: const TextStyle(color: Colors.black,fontSize: 20),
+                "Rs :${model!.productPrice}",
+                style: const TextStyle(color: Colors.black,fontSize: 20, fontWeight:FontWeight.bold ),
               ),
               const SizedBox(
                 height: 10,
+                
+                
               ),
               Container(
                 width: MediaQuery.of(context).size.width - 180,

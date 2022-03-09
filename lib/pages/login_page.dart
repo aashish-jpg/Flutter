@@ -7,6 +7,17 @@ import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:snippet_coder_utils/hex_color.dart';
 
+class EmailFieldValidator {
+  static String? validate(String value) {
+    return value.isEmpty ? 'Email can\'t be empty' : null;
+  }
+}
+class PasswordValidator {
+  static String? validate(String value) {
+    return value.isEmpty ? 'Password can\'t be empty' : null;
+  }
+}
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 

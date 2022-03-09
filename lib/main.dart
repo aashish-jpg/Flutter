@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:registration/pages/product_add_edit.dart';
 import 'package:registration/services/shared_service.dart';
 import 'pages/register_page.dart';
@@ -9,6 +10,10 @@ Widget _defaultHome = const LoginPage();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   bool _result = await SharedService.isLoggedIn();
   if (_result) {

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:registration/models/product_model.dart';
 import 'package:registration/pages/login_page.dart';
 import 'package:registration/pages/product_item.dart';
 import 'package:registration/services/api_service.dart';
+import 'package:shake/shake.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
 class ProductsList extends StatefulWidget {
@@ -15,9 +17,32 @@ class ProductsList extends StatefulWidget {
 class _ProductsListState extends State<ProductsList> {
   // List<ProductModel> products = List<ProductModel>.empty(growable: true);
   bool isApiCallProcess = false;
+  late ShakeDetector detector;
   @override
   void initState() {
     super.initState();
+    // Screen Rotation
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft
+    ]);
+        // Shake detector
+    detector = ShakeDetector.autoStart(onPhoneShake: () {
+      // Navigator.pushReplacement<void, void>(context,
+      // MaterialPageRoute(builder: (BuildContext context)=>  Login()));
+
+      //  Log out by shaking
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+    });
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    super.dispose();
   }
 
   @override
@@ -27,10 +52,11 @@ class _ProductsListState extends State<ProductsList> {
         title: const Text('Ae-Shop'),
         elevation: 0,
         backgroundColor: Colors.black,
-        actions:[
+        actions: [
           IconButton(
             onPressed: () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginPage()));
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()));
             },
             icon: const Icon(Icons.logout),
             color: Colors.white,
@@ -96,7 +122,6 @@ class _ProductsListState extends State<ProductsList> {
                 },
                 child: const Text('Add Product'),
               ),
-              
               ListView.builder(
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
@@ -126,6 +151,5 @@ class _ProductsListState extends State<ProductsList> {
         ],
       ),
     );
-    
   }
 }

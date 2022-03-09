@@ -21,6 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String? username;
   String? password;
   String? email;
+  
 
   @override
   Widget build(BuildContext context) {
